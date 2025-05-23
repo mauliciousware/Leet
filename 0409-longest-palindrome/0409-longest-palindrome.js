@@ -3,26 +3,20 @@
  * @return {number}
  */
 var longestPalindrome = function(s) {
-    let count = 0
-    // s = s.split('')
     let hashMap = new Map()
-    console.log(s)
-    for(char of s){
-        hashMap.set(char,(hashMap.get(char)||0)+1)
-    }
-    let haveOdd = false
+    let count = 0
+    let hasODD = false
 
-   for (let [key, value] of hashMap){
-        if(value % 2 == 0){
-            count+=value
-        }
-        else{
-            haveOdd = true
+    for(let i =0;i<s.length;i++){
+        hashMap.set(s[i],(hashMap.get(s[i])||0)+1)
+    }
+    for(let [key,value] of hashMap){
+        if(value%2==0) count+=value
+        else {
             count+=value-1
+            hasODD = true
         }
     }
-    if(haveOdd){
-        count+=1
-    }
+    if(hasODD) count+=1
     return count
 };
