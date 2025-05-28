@@ -4,20 +4,21 @@
  * @return {number}
  */
 var change = function(amount, coins) {
-    let re = helper(0,amount)
-    return re
-    function helper(idx,amount){
-        //baseCase
-        if(amount ==0) return 1
-        if(amount<0 || idx > coins.length-1) return 0
-        //Logic
-        //Choose
-        let pick = helper(idx,amount-coins[idx])
-        //NotChoose
-        let notPick = helper(idx+1,amount)
+    let dp = Array.from({ length: coins.length + 1 }, () => Array(amount + 1).fill(0));
 
-        //return
-        return pick+notPick
-
+    for (let i = 0; i <= coins.length; i++) {
+        dp[i][0] = 1;
     }
+
+    for (let i = 1; i <= coins.length; i++) {
+        for (let j = 1; j <= amount; j++) {
+            if (j >= coins[i - 1]) {
+                dp[i][j] = dp[i - 1][j] + dp[i][j - coins[i - 1]];
+            } else {
+                dp[i][j] = dp[i - 1][j];
+            }
+        }
+    }
+
+    return dp[coins.length][amount];
 };
