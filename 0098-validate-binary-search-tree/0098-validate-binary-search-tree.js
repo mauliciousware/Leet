@@ -1,31 +1,17 @@
-/**
- * Definition for a binary tree node.
- * function TreeNode(val, left, right) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.left = (left===undefined ? null : left)
- *     this.right = (right===undefined ? null : right)
- * }
- */
-/**
- * @param {TreeNode} root
- * @return {boolean}
- */
-var isValidBST = function(root) {
-    let prev = null
-    let flag = true
-    function inOrderHelper(root){
+var isValidBST = function(root,min= -Infinity,max=Infinity) {
+    //baseCase
+    if(!root)return true
 
-        //baseCase
-        if(!root) return
-        //logic
-        inOrderHelper(root.left)
-        //prcess
-        if(prev!= null && prev.val >= root.val){
-            flag = false
-        }
-        prev = root
-        inOrderHelper(root.right)
+    if(!(min < root.val && root.val < max))
+    {
+       return false 
     }
-    inOrderHelper(root)
-    return flag
-};
+    let left = isValidBST(root.left,min,root.val)
+    if (!left) return false //conditional recursion do not execute right if we found a breach in left
+    let right = isValidBST(root.right,root.val,max)
+    return left && right
+};  
+
+
+
+
