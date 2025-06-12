@@ -12,24 +12,23 @@
  * @return {TreeNode}
  */
 var buildTree = function(preorder, inorder) {
-    //Time Complexity : O(n^2)
-    //Space Complexity : O(n) // create a subArray half(ing) it but still its O(n)
-    if(preorder.length==0 || inorder.length==0) return null
-    let rootVal = preorder[0]
-    let root = new TreeNode(rootVal);
-    let rootIndex = inorder.indexOf(rootVal)
-
-    let leftInOrder = inorder.slice(0,rootIndex)//exclusive    
-    let rightInOrder = inorder.slice(rootIndex+1)
+    let hashMap = new Map()
+    for(let i=0;i<inorder.length;i++){
+        hashMap.set(inorder[i],i)
+    }
+    // console.log(hashMap)
+    // preOrder is just for root only
+    let rootIndex = 0
+    function build(start,end){
+        if(start>end) return null
+        let rootVal = preorder[rootIndex]
+        rootIndex+=1
+        let root = new TreeNode(rootVal)
+        let inOrderIndex = hashMap.get(rootVal)
+        root.left = build(start,inOrderIndex-1)
+        root.right = build(inOrderIndex+1,end)
+        return root
+    }
     
-    // let leftPre = preorder.slice(rootIndex+1,leftInOrder.length) 
-    let leftPre = preorder.slice(1, 1 + leftInOrder.length);
-    let rightPre = preorder.slice(1 + leftInOrder.length);
-    // let rightPre = preorder.slice(1 + leftInOrder.length)
-
-    root.left = buildTree(leftPre,leftInOrder)
-    root.right = buildTree(rightPre,rightInOrder)
-
-    return root
-
+    return build(0,inorder.length-1)
 };
