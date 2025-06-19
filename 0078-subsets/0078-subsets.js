@@ -3,20 +3,13 @@
  * @return {number[][]}
  */
 var subsets = function(nums) {
-    let res = []
-    function helper(nums,idx,subSet){
-        //Base 
-        if(idx >= nums.length)
-        {
-            res.push([...subSet])
-            return 
+    let res = [[]]
+    for(let i =0;i<nums.length;i++){
+        let size = res.length
+        for(let j=0;j<size;j++){
+            let newArray = [...res[j],nums[i]]
+            res.push(newArray)
         }
-
-        subSet.push(nums[idx])
-        helper(nums,idx+1,subSet)
-        subSet.pop()
-        helper(nums,idx+1,subSet)
-    }  
-    helper(nums,0,[])
+    }
     return res
 };
