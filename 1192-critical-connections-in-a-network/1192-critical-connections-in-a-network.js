@@ -1,43 +1,47 @@
-/**
- * @param {number} n
- * @param {number[][]} connections
- * @return {number[][]}
- */
-var criticalConnections = function(n, connections) {
+var criticalConnections = function (n, connections) {
+    const adjList = Array.from({ length: n }, () => []);
 
-    const graph = Array.from({ length: n }, () => []);
-    
-    for (const [u, v] of connections) {
-        graph[u].push(v);
-        graph[v].push(u); // undirected graph
+    for (const [a, b] of connections) {
+        adjList[a].push(b);
+        adjList[b].push(a);
     }
 
-    const disc = Array(n).fill(-1); // discovery time
-    const low = Array(n).fill(-1);  // lowest reachable time
-    const result = [];
-    let time = 0;
+    const discoveryTime = Array(n).fill(-1);
+    const lowLink = Array(n).fill(-1);
+    const bridges = [];
 
-    function dfs(u, parent) {
-        disc[u] = low[u] = time++;
+    let timestamp = 0;
 
-        for (const v of graph[u]) {
-            if (v === parent) continue; // we skip the edge to parent
+    function dfs(currentNode, parentNode) {
 
-            if (disc[v] === -1) {
-                dfs(v, u);
-                low[u] = Math.min(low[u], low[v]);
+       discoveryTime[currentNode] = timestamp;
+       lowLink[currentNode] = timestamp;
+       timestamp++;
 
-                // If the lowest reachable time from v is greater than discovery time of u,
-                // then u-v is a bridge
-                if (low[v] > disc[u]) {
-                    result.push([u, v]);
+        for (const neighbor of adjList[currentNode]) {
+            if (neighbor === parentNode) continue;
+
+            // Tree edge
+            if (discoveryTime[neighbor] === -1) {
+                dfs(neighbor, currentNode);
+
+                lowLink[currentNode] = Math.min(lowLink[currentNode], lowLink[neighbor]);
+
+                // Bridge condition
+                if (lowLink[neighbor] > discoveryTime[currentNode]) {
+                    bridges.push([currentNode, neighbor]);
                 }
-            } else {
-                low[u] = Math.min(low[u], disc[v]);
+            }
+            // Back edge
+            else {
+                lowLink[currentNode] = Math.min(
+                    lowLink[currentNode],
+                    discoveryTime[neighbor]
+                );
             }
         }
     }
 
     dfs(0, -1);
-    return result;
+    return bridges;
 };
