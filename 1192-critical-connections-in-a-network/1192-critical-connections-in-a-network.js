@@ -38,10 +38,7 @@ var criticalConnections = function(n, connections) {
                 low[node] = Math.min(low[node],desc[neighbour])
             }
         }
-    }
-
+    }  
     dfs(0,-1)
     return result
-
-
 };
