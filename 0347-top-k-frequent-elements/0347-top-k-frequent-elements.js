@@ -1,25 +1,36 @@
 var topKFrequent = function(nums, k) {
-    let hashMap = new Map()
-    let ans = []
-    for(let i =0;i<nums.length;i++){
-        if(hashMap.has(nums[i])){
-            hashMap.set(nums[i],hashMap.get(nums[i])+1)
-        }
-        else{
-            hashMap.set(nums[i],1)
+    if (k === nums.length) return nums;
+    // Step 1: Count frequency of each element using a hash map
+    const count = new Map();
+    for (const num of nums) {
+        count.set(num, (count.get(num) || 0) + 1);
+    }
+    // Step 2: Bucket sort by frequency
+    const buckets = new Array(nums.length + 1);
+    // Initialize each bucket as an empty array
+    for (let i = 0; i < buckets.length; i++) {
+        buckets[i] = [];
+    }
+    // Place numbers in their corresponding frequency buckets
+    for (const [num, freq] of count.entries()) {
+        buckets[freq].push(num);
+    }
+    // Step 3: Flatten the buckets from highest to lowest frequency
+    const flattened = [];
+    
+    // Start from the highest frequency (last bucket) and go downwards
+    for (let i = buckets.length - 1; i >= 0; i--) {
+        // If bucket has elements, add them to the flattened list
+        for (const num of buckets[i]) {
+            flattened.push(num);
         }
     }
-    let bucket = Array.from({length:nums.length+1},()=>[]);
-
-
-    for(let [num,freq] of hashMap.entries()){
-        bucket[freq].push(num)
+    // Step 4: Take the first k elements (most frequent)
+    const top = new Array(k);
+    for (let i = 0; i < k; i++) {
+        top[i] = flattened[i];
     }
-    //its already sorted
-    for(let i=bucket.length-1;i>=0 && ans.length<k;i--){
-        for(num of bucket[i]){
-            ans.push(num)
-            if(ans.length === k ) return ans
-        }
-    }
+    
+    return top;
 };
+
