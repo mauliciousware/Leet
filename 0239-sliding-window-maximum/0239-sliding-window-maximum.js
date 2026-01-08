@@ -1,27 +1,38 @@
 var maxSlidingWindow = function(nums, k) {
-    let deque = []; // stores indices
-    let res = [];
+    // Deque will store indices of elements
+    // Values corresponding to these indices will be in decreasing order
+    let deque = [];
+    let result = [];
 
     for (let i = 0; i < nums.length; i++) {
 
-        // remove indices out of the current window
-        if (deque.length && deque[0] <= i - k) {
+        // 1️⃣ Remove indices that are out of the current window
+        // Current window range is [i - k + 1, i]
+        if (deque.length > 0 && deque[0] < i - k + 1) {
             deque.shift();
         }
 
-        // maintain decreasing order
-        while (deque.length && nums[deque[deque.length - 1]] <= nums[i]) {
-            deque.pop();
+        // 2️⃣ Remove all smaller elements from the back
+        // They can never be the maximum if current element is bigger
+        while (deque.length > 0) {
+            let lastIndex = deque[deque.length - 1];
+
+            if (nums[lastIndex] <= nums[i]) {
+                deque.pop();
+            } else {
+                break;
+            }
         }
 
-        // add current index
+        // 3️⃣ Add current index to the deque
         deque.push(i);
 
-        // window is ready
+        // 4️⃣ Once the first window is formed, record the maximum
+        // Front of deque always holds index of the max element
         if (i >= k - 1) {
-            res.push(nums[deque[0]]);
+            result.push(nums[deque[0]]);
         }
     }
 
-    return res;
+    return result;
 };
