@@ -6,9 +6,11 @@ var maxSlidingWindow = function(nums, k) {
 
     for (let i = 0; i < nums.length; i++) {
 
+        // Explicitly compute the start of the window
+        let windowStart = i - k + 1;
         // 1️⃣ Remove indices that are out of the current window
         // Current window range is [i - k + 1, i]
-        if (deque.length > 0 && deque[0] < i - k + 1) {
+        if (deque.length > 0 && deque[0] < windowStart) {
             deque.shift();
         }
 
