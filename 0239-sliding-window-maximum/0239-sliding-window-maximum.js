@@ -1,45 +1,39 @@
 var maxSlidingWindow = function(nums, k) {
 
-    // https://codepen.io/mrmaddy7/pen/LEZZPva
-    
-    let deque = []; // Deque will store indices of elements
-    // Values corresponding to these indices will be in decreasing order
-    let result = []; // This will store result
+    // Deque will store indices of elements
+    // Values at these indices are maintained in decreasing order
+    let deque = [];
+    let result = [];
 
     for (let i = 0; i < nums.length; i++) {
 
-        // Explicitly compute the start of the window
-        let windowStart = i - k + 1; // This basically tells, which part of window will i fall on 
-
-        //Remove indices that are out of the current window
+        // Compute the start index of the current sliding window
         // Current window range is [i - k + 1, i]
+        let windowStart = i - k + 1;
+
+        // Remove indices from the front that are outside the current window
+        // If an index is smaller than windowStart, it no longer belongs to the window
         if (deque.length > 0 && deque[0] < windowStart) {
-            //this basically tells anything below dequeue[0](which is holding indices should be removed)
-            //dequeue[0] is passed my window
-            //this keep my window size intact
-            //Window size controlling popFront()
-            deque.shift();
+            deque.shift(); // popFront
         }
 
-        //Remove all smaller elements from the back
-        // They can never be the maximum if current element is bigger
+        // Remove indices from the back whose values are smaller than the current element
+        // They cannot be the maximum as long as the current element is in the window
         while (deque.length > 0) {
-            //Keep comparing value of last index of dequeu
             let lastIndex = deque[deque.length - 1];
 
             if (nums[lastIndex] <= nums[i]) {
-                //value of the nums at last index controls popBack()
-                deque.pop();
+                deque.pop(); // popBack
             } else {
                 break;
             }
         }
 
-        //Add current index to the deque
+        // Add current index to the deque
         deque.push(i);
 
-        //Once the first window is formed, record the maximum
-        // Front of deque always holds index of the max element
+        // Once the first window is formed (i >= k - 1),
+        // the front of the deque holds the index of the maximum element
         if (i >= k - 1) {
             result.push(nums[deque[0]]);
         }
