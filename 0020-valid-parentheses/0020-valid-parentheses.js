@@ -3,21 +3,28 @@
  * @return {boolean}
  */
 var isValid = function(s) {
-    let madeChanges = true;
-    s = s.split('');
-    
-    while(madeChanges) {
-        madeChanges = false;
-        for(let i = 0; i < s.length - 1; i++) {
-            // Only check adjacent characters
-            if((s[i] === "(" && s[i+1] === ")") || 
-               (s[i] === "[" && s[i+1] === "]") || 
-               (s[i] === "{" && s[i+1] === "}")) {
-                s.splice(i, 2); // Remove the pair together
-                madeChanges = true;
-                break;
-            }
+    let stack = []
+    function check(open,close){
+        if(open == "{" && close =="}" || open=="[" && close =="]" || open =="("&&close==")"){
+            return true
+        }
+        else{
+            return false
         }
     }
-    return s.length === 0;
+    for(let i=0;i<s.length;i++){
+        
+        if(s[i]=='{' || s[i]=="[" || s[i]=="(") stack.push(s[i])
+        // closing bracket
+        else {
+            if (stack.length === 0) return false;
+
+            let open = stack.pop();
+            let close = s[i];
+
+            if (!check(open, close)) return false;
+        }
+    }
+
+    return stack.length==0
 };
