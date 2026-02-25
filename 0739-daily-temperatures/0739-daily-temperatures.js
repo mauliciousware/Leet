@@ -2,7 +2,6 @@ var dailyTemperatures = function(temperatures) {
     let stack = [[temperatures[0], 0]]
     let ans = new Array(temperatures.length).fill(0)
     let i = 1
-
     while(i < temperatures.length){
 
         let current = [temperatures[i], i]
