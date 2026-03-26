@@ -1,26 +1,17 @@
-/**
- * @param {number[]} heights
- * @return {number}
- */
 var largestRectangleArea = function(heights) {
     const st = [];
-    st.push(-1);
-    const n = heights.length;
     let max = 0;
-    var i;  // declared outside so it's accessible in final while loop
-    
-    for(i = 0; i < n; i++){
-        while(st[st.length-1] != -1 && heights[i] < heights[st[st.length-1]]){
-            let popped = st.pop();
-            let curr = heights[popped] * (i - st[st.length-1] - 1);
+    heights = [...heights, 0]; // sentinel
+
+    for (let i = 0; i < heights.length; i++) {
+        while (st.length && heights[i] < heights[st[st.length - 1]]) {
+            const poppedIdx = st.pop();
+            const width = st.length === 0 ? i : i - st[st.length - 1] - 1;
+            const curr = heights[poppedIdx] * width;
             max = Math.max(max, curr);
         }
         st.push(i);
     }
-    while(st[st.length-1] != -1){
-        let popped = st.pop();
-        let curr = heights[popped] * (i - st[st.length-1] - 1);
-        max = Math.max(max, curr);
-    }
+
     return max;
 };
