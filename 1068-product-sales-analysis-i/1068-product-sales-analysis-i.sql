@@ -3,6 +3,6 @@ SELECT
     s.year,
     s.price
 FROM 
-    Sales s
+    Sales as s
 JOIN 
-    Product p ON s.product_id = p.product_id;
+    Product as p ON s.product_id = p.product_id;
