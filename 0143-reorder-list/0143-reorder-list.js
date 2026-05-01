@@ -12,10 +12,10 @@
 function reverseList(current){
     let prev = null
     while(current){
-        let front = current.next
+        let temp = current.next
         current.next = prev
         prev = current
-        current = front
+        current = temp
     }
     return prev
 }
@@ -33,11 +33,11 @@ var reorderList = function(head) {
       //Slow is pointing at the first ele
       //Fast is pointing to the last ele
       while(fast!=null){
-        let front = slow.next
+        let temp = slow.next
         slow.next = fast
         fast = fast.next
-        slow.next.next = front
-        slow = front
+        slow.next.next = temp
+        slow = temp
       }
 
       // merge
