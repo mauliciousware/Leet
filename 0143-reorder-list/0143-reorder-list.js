@@ -10,7 +10,7 @@
  * @return {void} Do not return anything, modify head in-place instead.
  */
 function reverseList(current){
-    prev = null
+    let prev = null
     while(current){
         let front = current.next
         current.next = prev
