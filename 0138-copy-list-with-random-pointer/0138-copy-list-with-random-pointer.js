@@ -1,23 +1,46 @@
+/**
+ * // Definition for a _Node.
+ * function _Node(val, next, random) {
+ *    this.val = val;
+ *    this.next = next;
+ *    this.random = random;
+ * };
+ */
+
+/**
+ * @param {_Node} head
+ * @return {_Node}
+ */
 var copyRandomList = function(head) {
-    if (!head) return null;
-    
-    let map = new Map();
-    let current = head;
-    
-    // First pass: create copy nodes without linking next/random
-    while (current) {
-        map.set(current, new _Node(current.val, null, null));
-        current = current.next;
+    if(!head) return null
+    // 1. Insert copy intertwined
+    let current = head
+    while(current){
+        let copy = new _Node(current.val,null,null)
+        copy.next = current.next
+        current.next = copy
+        current = current.next.next
     }
-    
-    // Second pass: assign next and random pointers using the map
+
+    // 2. Connect Random Pointers
+    current = head
+    while(current){
+        current.next.random = current.random ? current.random.next : null;
+        current = current.next.next
+    }
+    current = head
+    // 3. Connect Next Pointers (FIXED)
+    let dummyNode = new _Node(-1, null, null);
+    let temp = dummyNode;
     current = head;
+    
     while (current) {
-        let copy = map.get(current);
-        copy.next = map.get(current.next) || null;
-        copy.random = map.get(current.random) || null;
-        current = current.next;
+        temp.next = current.next;    // Add copy to result
+        temp = temp.next;            // Move temp forward
+        current.next = current.next.next; // Restore original's next
+        current = current.next;      // Move to next original
     }
     
-    return map.get(head);
+    return dummyNode.next;
+
 };
