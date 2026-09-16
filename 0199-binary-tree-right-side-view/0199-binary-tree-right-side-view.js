@@ -12,16 +12,18 @@
  */
 var rightSideView = function(root) {
     if(!root) return []
-    let res = []
-    let queue = [root]
-    while(queue.length){
-        let size = queue.length
-        for(let i=0;i<size;i++){
-            let current = queue.shift()
-            if(i==size-1) res.push(current.val)
-            if(current.left) queue.push(current.left)
-            if(current.right) queue.push(current.right)
-        }
-    } 
-    return res
+    let stack = []
+
+    function dfs(node,level){
+
+        if(!node) return
+
+        if(level == stack.length) stack.push(node.val)
+
+        dfs(node.right,level+1)
+        dfs(node.left,level+1) 
+
+    }
+    dfs(root,0)
+    return stack
 };
