@@ -2,8 +2,7 @@ var isValidBST = function(root) {
     function validate(node, min, max) {
         if (node === null) return true;
         
-        if ((min !== null && node.val <= min) || 
-            (max !== null && node.val >= max)) {
+        if (node.val <= min || node.val >= max) {
             return false;
         }
         
@@ -13,5 +12,5 @@ var isValidBST = function(root) {
         return left && right;
     }
     
-    return validate(root, null, null);
+    return validate(root, -Infinity, Infinity);
 };
