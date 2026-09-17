@@ -11,18 +11,19 @@
  * @return {number[][]}
  */
 var levelOrder = function(root) {
+    if(!root) return []
+    let queue = [root]
     let res = []
-    function helper(root,level){
-        if(!root)return 
-        if(res.length == level){
-            res.push([root.val])
+    while(queue.length){
+        let size = queue.length
+        let tempres = []
+        for(let i=0;i<size;i++){
+            let current = queue.shift()
+            tempres.push(current.val)
+            if(current.left) queue.push(current.left)
+            if(current.right) queue.push(current.right)
         }
-        else{
-            res[level].push(root.val)
-        }
-        helper(root.left,level+1)
-        helper(root.right,level+1)
+        res.push(tempres)
     }
-    helper(root,0)
     return res
 };
