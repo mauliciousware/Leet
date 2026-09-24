@@ -1,26 +1,34 @@
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
 var maxPathSum = function(root) {
-    let maxSum = -Infinity
+    let maxi = -Infinity
 
-    const dfs = (node) => {
-        if (!node) {
-            return 0;
-        }
-        
-        let leftMax = dfs(node.left);
-        let rightMax = dfs(node.right);
+    function dfs(node){
+        if(!node) return 0
 
-        // If any path sum is negative, it's better to not include it (treat as 0)
-        leftMax = Math.max(leftMax, 0);
-        rightMax = Math.max(rightMax, 0);
+        let leftMax = dfs(node.left)
+        let rightMax = dfs(node.right)
 
-        // Compute max path sum WITH split (node as the highest point)
-        // Update the global maxSum
-        maxSum = Math.max(maxSum, node.val + leftMax + rightMax);
+        if(leftMax < 0) leftMax = 0
+        if(rightMax < 0) rightMax = 0
 
-        // Return max path sum WITHOUT split (only one side can be chosen for the parent)
-        return node.val + Math.max(leftMax, rightMax);
-    };
-    dfs(root);
+        //with split
+        maxi = Math.max(maxi,leftMax+node.val+rightMax)
 
-    return maxSum;
+        //without split
+        return node.val + Math.max(leftMax,rightMax)
+
+    }
+    dfs(root)
+    return maxi
 };
