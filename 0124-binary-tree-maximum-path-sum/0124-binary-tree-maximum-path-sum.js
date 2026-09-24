@@ -1,14 +1,11 @@
 var maxPathSum = function(root) {
-    // Initialize result with root's value (handles negative root values)
     let maxSum = -Infinity
 
-    // Helper function for DFS
     const dfs = (node) => {
         if (!node) {
             return 0;
         }
-
-        // Recursively get max sum from left and right subtrees
+        
         let leftMax = dfs(node.left);
         let rightMax = dfs(node.right);
 
@@ -23,7 +20,6 @@ var maxPathSum = function(root) {
         // Return max path sum WITHOUT split (only one side can be chosen for the parent)
         return node.val + Math.max(leftMax, rightMax);
     };
-
     dfs(root);
 
     return maxSum;
