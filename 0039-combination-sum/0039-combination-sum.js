@@ -15,8 +15,10 @@ var combinationSum = function(candidates, target) {
         }
 
 
-        dfs(candidates,idx,target-candidates[idx],[...res,candidates[idx]]) // choose
-        dfs(candidates,idx+1,target,[...res]) // skip
+        dfs(candidates,idx+1,target,res) // skip
+        res.push(candidates[idx])
+        dfs(candidates,idx,target-candidates[idx],res) // choose
+        res.pop()
     }
     dfs(candidates,0,target,[])
     return finalRes
