@@ -3,20 +3,31 @@
  * @return {string[]}
  */
 var generateParenthesis = function(n) {
-    let res = []
-    function backTracking(open,close,n,stack){
-        if(open === close && open == n){
-            res.push(stack)
+    let finalRes = []
+
+    function dfs(open, close, res) {
+        // base case
+        if (open === 0 && close === 0) {
+            finalRes.push(res.join(""))
             return
         }
-        if(open<n){
-            backTracking(open+1,close,n,stack+"(")
-        }
-        if(close<open){
-            backTracking(open,close+1,n,stack+")")
 
+        // add "(" if we still have one
+        if (open > 0) {
+            res.push("(")
+            dfs(open - 1, close, res)
+            res.pop()
+        }
+
+        // add ")" only if there are more closing brackets left
+        // than opening brackets
+        if (close > open) {
+            res.push(")")
+            dfs(open, close - 1, res)
+            res.pop()
         }
     }
-    backTracking(0,0,n,"")
-    return res    
+
+    dfs(n, n, [])
+    return finalRes
 };
