@@ -12,9 +12,9 @@ var subsetsWithDup = function(nums) {
             return
         }
 
-        res.push(nums[idx])    
-        dfs(nums,idx+1,res)
-        res.pop()
+  
+        dfs(nums,idx+1,[...res,nums[idx]])
+
 
         while(idx+1 < nums.length && nums[idx]===nums[idx+1]){
             idx++
