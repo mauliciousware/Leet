@@ -7,14 +7,18 @@ var generateParenthesis = function(n) {
 
     function dfs(open,close,res){
         if(open == 0 && close == 0){
-            finalRes.push(res)
+            finalRes.push(res.join(''))
             return
         }
         if(open >0){
-            dfs(open-1,close,res + "(")
+            res.push("(")
+            dfs(open-1,close,res)
+            res.pop()
         }
         if(close >open){
-            dfs(open,close-1,res + ")")
+            res.push(")")
+            dfs(open,close-1,res)
+            res.pop()
         }
 
     }  
