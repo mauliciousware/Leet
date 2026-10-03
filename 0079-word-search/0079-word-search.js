@@ -8,38 +8,37 @@ var exist = function(board, word) {
     let m = board[0].length
     let directions = [[-1,0], [0,1], [1,0], [0,-1]];
 
-    function dfs(r,c,index,visited){
+    function dfs(r,c,index){
         if(index == word.length){
             return true
         }
         let key = `${r},${c}`;
-        if(r <0 || c >= m || r>=n || c<0 || board[r][c]!= word[index] || visited.has(key)){
+        if(r <0 || c >= m || r>=n || c<0 || board[r][c]!= word[index] || board[r][c] == "#"){
             return false
         }
-        visited.add(key)
+        let temp = board[r][c]
+        board[r][c] = "#"
         for(let [dr,dc] of directions){
             let nr = r+dr
             let nc = c+dc
             
-            if(dfs(nr,nc,index+1,visited)){
-            visited.delete(key)
+            if(dfs(nr,nc,index+1)){
             return true
             }
 
             
         }
-        visited.delete(key)
+        board[r][c] = temp
         return false
 
 
     }
+
     for(let i=0;i<n;i++){
         for(let j=0;j<m;j++){
             if(board[i][j]==word[0]){
                 //got the starting point
-                //send a visted as well
-                let visted = new Set()
-                if(dfs(i,j,0,visted)){
+                if(dfs(i,j,0)){
                     return true
                 }
             }
