@@ -4,45 +4,40 @@
  * @return {boolean}
  */
 var exist = function(board, word) {
-    let n = board.length
-    let m = board[0].length
-    let directions = [[-1,0], [0,1], [1,0], [0,-1]];
+    let ROW = board.length
+    let COL = board[0].length
 
-    function dfs(r,c,index){
-        if(index == word.length){
-            return true
-        }
-        let key = `${r},${c}`;
-        if(r <0 || c >= m || r>=n || c<0 || board[r][c]!= word[index] || board[r][c] == "#"){
+    let directions = [[1,0],[0,1],[-1,0],[0,-1]]
+
+    function dfs(i,j,index){
+        if(index == word.length) return true
+        if(i<0 || j<0 || i>=ROW || j>=COL || board[i][j]=="#" || board[i][j]!=word[index]){
             return false
         }
-        let temp = board[r][c]
-        board[r][c] = "#"
+
+        let temp = board[i][j]
+        board[i][j] = "#" 
+
         for(let [dr,dc] of directions){
-            let nr = r+dr
-            let nc = c+dc
-            
+            let nr = dr+i
+            let nc = dc+j
             if(dfs(nr,nc,index+1)){
             return true
             }
-
-            
         }
-        board[r][c] = temp
+
+        board[i][j] = temp
         return false
-
-
     }
 
-    for(let i=0;i<n;i++){
-        for(let j=0;j<m;j++){
-            if(board[i][j]==word[0]){
-                //got the starting point
-                if(dfs(i,j,0)){
-                    return true
-                }
+    for(let r=0;r<ROW;r++){
+        for(let c=0;c<COL;c++){
+            if(board[r][c]==word[0])//found the starting word
+            {
+                if(dfs(r,c,0)) return true
             }
         }
     }
     return false
+
 };
