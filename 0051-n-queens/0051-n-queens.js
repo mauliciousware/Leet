@@ -8,6 +8,7 @@ var solveNQueens = function(n) {
 
     function helper(row) {
         if (row === n) {
+        //! We placed all the queens take a snapshot of board and save it
             let list = []
 
             for (let i = 0; i < n; i++) {
