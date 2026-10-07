@@ -3,39 +3,33 @@
  * @return {string[]}
  */
 var letterCombinations = function(digits) {
-    if(digits.length === 0) return []
-
-    let map = {
-        "2": "abc",
-        "3": "def",
-        "4": "ghi",
-        "5": "jkl",
-        "6": "mno",
-        "7": "pqrs",
-        "8": "tuv",
-        "9": "wxyz"
-    }
-
     let finalRes = []
+    let keyPad = new Map()
+    keyPad.set("2","abc")
+    keyPad.set("3","def")
+    keyPad.set("4","ghi")
+    keyPad.set("5","jkl")
+    keyPad.set("6","mno")
+    keyPad.set("7","pqrs")
+    keyPad.set("8","tuv")
+    keyPad.set("9","wxyz")
 
-    function dfs(idx, res){
-
-        // We used all digits
-        if(idx === digits.length){
-            finalRes.push(res)
+    function dfs(idx,temp){
+        //Base case
+        if(idx == digits.length){
+            finalRes.push(temp)
             return
         }
 
-        // Get letters for current digit
-        let letters = map[digits[idx]]
+        let letters = keyPad.get(digits[idx])
 
-        // Try every possible letter
         for(let letter of letters){
-            dfs(idx + 1, res + letter)
+            dfs(idx+1,temp+letter)
         }
+
     }
 
-    dfs(0, "")
-
+    dfs(0,"")
     return finalRes
-}
+    
+};
