@@ -5,17 +5,17 @@
 var partition = function(s) {
     let finalRes = []
 
-    function helper(s,pivot,path){
+    function helper(s,pivot,temp){
         if(pivot == s.length){
-         finalRes.push([...path])
+         finalRes.push([...temp])
             return
         }
         for(let i = pivot;i<s.length;i++){
             let subString = s.substring(pivot,i+1)
             if(isPalindrome(subString)){
-                path.push(subString)
-                helper(s,i+1,path)
-                path.pop()
+                temp.push(subString)
+                helper(s,i+1,temp)
+                temp.pop()
             }
         }
     }
