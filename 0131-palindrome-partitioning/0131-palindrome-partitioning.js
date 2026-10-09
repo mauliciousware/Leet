@@ -3,11 +3,11 @@
  * @return {string[][]}
  */
 var partition = function(s) {
-    let res = []
+    let finalRes = []
 
     function helper(s,pivot,path){
         if(pivot == s.length){
-            res.push([...path])
+         finalRes.push([...path])
             return
         }
         for(let i = pivot;i<s.length;i++){
@@ -20,7 +20,7 @@ var partition = function(s) {
         }
     }
     helper(s,0,[])
-    return res
+    return finalRes
 };
 
 function isPalindrome(s){
