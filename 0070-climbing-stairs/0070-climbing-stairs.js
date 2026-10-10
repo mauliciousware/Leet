@@ -3,24 +3,12 @@
  * @return {number}
  */
 var climbStairs = function(n) {
-    let memoiz = new Map()
-
-    function dfs(n){
-
-        if(memoiz.has(n)) return memoiz.get(n)
-
-        if(n==0){
-            return 1
-        } 
-        if(n < 0) return 0
-
-        let left = dfs(n-1)
-        let right = dfs(n-2)
-
-        memoiz.set(n,left+right)
-        return left + right
-
+    n = n+1
+    let dp = new Array(n).fill(0)
+    dp[n-1] = 1
+    dp[n-2] = 1
+    for(let i=n-3;i>=0;i--){
+        dp[i] = dp[i+1]+dp[i+2]
     }
-
-    return dfs(n)
+    return dp[0]
 };
