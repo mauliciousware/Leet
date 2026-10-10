@@ -3,12 +3,20 @@
  * @return {number}
  */
 var climbStairs = function(n) {
-    n = n+1
-    let dp = new Array(n).fill(0)
-    dp[n-1] = 1
-    dp[n-2] = 1
-    for(let i=n-3;i>=0;i--){
-        dp[i] = dp[i+1]+dp[i+2]
+    n = n + 1
+
+    let val1 = 1
+    let val2 = 1
+    let val3 = 0
+
+    for (let i = n - 3; i >= 0; i--) {
+        // Calculate ways from current position
+        val3 = val1 + val2
+
+        // Shift values for next iteration
+        val2 = val1
+        val1 = val3
     }
-    return dp[0]
+
+    return val1
 };
