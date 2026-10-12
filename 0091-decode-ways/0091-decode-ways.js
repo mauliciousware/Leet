@@ -1,7 +1,4 @@
-/**
- * @param {string} s
- * @return {number}
- */
+
 var numDecodings = function(s) {
 
     let memoize = new Map()
@@ -24,7 +21,6 @@ var numDecodings = function(s) {
 
         memoize.set(idx,takeOne+takeTwo)
         return takeOne + takeTwo
-
 
     }  
     return dfs(0)
