@@ -3,24 +3,33 @@
  * @return {number}
  */
 var rob = function(nums) {
-    if(nums.length==1) return nums[0]
-    let memoize = new Map()
+    if(nums.length == 1) return nums[0]
 
-    function dfs(idx,end){
-        if(memoize.has(`${idx},${end}`)) return memoize.get(`${idx},${end}`)
-        if(idx >= end){
-            return 0
-        }
+    let n = nums.length
+    let dp = new Array(n+2).fill(0)
 
-        let take = nums[idx] + dfs(idx+2,end)
-        let skip = dfs(idx+1,end)
+    // Case 1: Exclude the last house
+    for(let i=n-2;i>=0;i--){
+        let take = nums[i] + dp[i+2]
+        let skip = dp[i+1]
 
-        memoize.set(`${idx},${end}`,Math.max(take,skip))
-        return Math.max(take,skip)
+        dp[i] = Math.max(take,skip)
     }
 
-    let case1 = dfs(0, nums.length-1)
-    let case2 = dfs(1,nums.length)
+    let case1 = dp[0]
+
+    // Reset DP array
+    dp = new Array(n+2).fill(0)
+
+    // Case 2: Exclude the first house
+    for(let i=n-1;i>=1;i--){
+        let take = nums[i] + dp[i+2]
+        let skip = dp[i+1]
+
+        dp[i] = Math.max(take,skip)
+    }
+
+    let case2 = dp[1]
 
     return Math.max(case1,case2)
 };
