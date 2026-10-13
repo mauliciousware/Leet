@@ -3,20 +3,16 @@
  * @return {number}
  */
 var rob = function(nums) {
-    let amount = 0
-    let memo = {}
-    function helper(nums,idx){
-        //BaseCase
-        if(idx > nums.length-1) return 0
-        if(memo[idx]!=undefined) return memo[idx]
-        //Logic
-        //Choose
-        let letsRob = nums[idx]+helper(nums,idx+2)
-        //NotChoose
-        let notRob = helper(nums,idx+1)
-        memo[idx] = Math.max(letsRob,notRob)
-        return memo[idx]
-    }   
-    let result = helper(nums,0)
-    return result
+    let memoize = new Map()
+    function dfs(idx){
+        if(memoize.has(idx)) return memoize.get(idx)
+        if(idx>=nums.length) return 0
+
+        let take = nums[idx]+dfs(idx+2)
+        let skip = dfs(idx+1)
+        
+        memoize.set(idx,Math.max(take,skip))
+        return Math.max(take,skip)
+    }
+    return dfs(0)
 };
