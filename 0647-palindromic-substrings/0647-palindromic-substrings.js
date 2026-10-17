@@ -4,29 +4,30 @@
  */
 var countSubstrings = function(s) {
     let count = 0
-    function isValid(str){
-        let left = 0
-        let right = str.length - 1
 
-        while (left < right) {
-            if (str[left] !== str[right]) {
-                return false
-            }
+    // Odd-length palindromes
+    for (let i = 0; i < s.length; i++) {
+        let left = i
+        let right = i
 
-            left++
-            right--
-        }
-
-        return true
-
-    }
-    for(let i=0;i<s.length;i++){
-        for(let j=i;j<s.length;j++){
-            let tempStr = s.slice(i,j+1)
-            if(isValid(tempStr)){
-                count++
-            }
+        while (left >= 0 && right < s.length && s[left] === s[right]) {
+            count++
+            left--
+            right++
         }
     }
+
+    // Even-length palindromes
+    for (let i = 0; i < s.length; i++) {
+        let left = i
+        let right = i + 1
+
+        while (left >= 0 && right < s.length && s[left] === s[right]) {
+            count++
+            left--
+            right++
+        }
+    }
+
     return count
 };
