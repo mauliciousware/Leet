@@ -3,33 +3,33 @@
  * @return {number}
  */
 var trap = function(height) {
-    
     let result =0
-    let l = 0
-    let r = height.length-1
-    let lw = 0
-    let rw = 0
+    let leftWall = 0
+    let rightWall = 0
+    let left = 0
+    let right = height.length-1
 
-    while(l<=r){
-        if(height[r] > height[l]){
-            if(lw > height[l]){
-                result += 1 * (lw-height[l]) 
+    while(left<=right){
+        if(height[right]>height[left]){
+            //deal with leftFirst
+            if(leftWall > height[left]){
+                result += 1 * (leftWall - height[left])
             }
             else{
-                lw = height[l]
+                leftWall = height[left]
             }
-            l++
+            left++
         }
         else{
-            if(rw > height[r]){
-                result += 1 * (rw-height[r]) 
+            //deal with right
+            if(rightWall > height[right]){
+                result += 1 * (rightWall - height[right])
             }
             else{
-                rw = height[r]
+                rightWall = height[right]
+            }
+            right--
         }
-        r--
-
-    }
     }
     return result
 };
