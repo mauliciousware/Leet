@@ -3,6 +3,7 @@
  * @return {number}
  */
 var trap = function(height) {
+    
     let result =0
     let l = 0
     let r = height.length-1
